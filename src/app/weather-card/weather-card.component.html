@@ -6,7 +6,7 @@
           <h4>Temperatures today:</h4>
           <p>Current {{item.temperature.temp}} - Max {{item.temperature.tempMax}} - Min {{item.temperature.tempMin}}</p>
           <p>
-              <a routerLink="/forecast/95742"
+              <a [routerLink]="'/forecast/' + item.zipcode"
                   >Show 5-day forecast for {{item.name}}</a
               >
           </p>
@@ -14,10 +14,8 @@
       <div>
           <span class="close">×</span>
           <img
-              src="https://www.angulartraining.com/images/weather/sun.png"
+              [src]="item.currentCondition | setImage"
           />
       </div>
   </div>
-
-  <!-- <div class="well flex"></div> -->
 </div>

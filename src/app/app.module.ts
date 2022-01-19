@@ -9,10 +9,24 @@ import { WeatherCardComponent } from './weather-card/weather-card.component';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SetImagePipe } from './pipes/set-image.pipe';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule ],
-  declarations: [ AppComponent, ZipcodeSearchComponent, WeatherCardComponent, WeatherForecastComponent, HomeComponent ],
-  bootstrap:    [ AppComponent ]
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  declarations: [
+    AppComponent,
+    ZipcodeSearchComponent,
+    WeatherCardComponent,
+    WeatherForecastComponent,
+    HomeComponent,
+    SetImagePipe
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
