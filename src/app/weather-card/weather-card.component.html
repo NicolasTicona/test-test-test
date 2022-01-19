@@ -1,13 +1,13 @@
 <div class="container-fluid">
-  <div class="well flex">
+  <div class="well flex" *ngFor="let item of weatherInfo$ | async" >
       <div>
-          <h3>Rancho Cordova (95742)</h3>
-          <h4>Current conditions: Clouds</h4>
+          <h3>{{item.name}} ({{item.zipcode}})</h3>
+          <h4>Current conditions: {{item.currentCondition}}</h4>
           <h4>Temperatures today:</h4>
-          <p>Current 58 - Max 65 - Min 48</p>
+          <p>Current {{item.temperature.temp}} - Max {{item.temperature.tempMax}} - Min {{item.temperature.tempMin}}</p>
           <p>
               <a routerLink="/forecast/95742"
-                  >Show 5-day forecast for Rancho Cordova</a
+                  >Show 5-day forecast for {{item.name}}</a
               >
           </p>
       </div>
@@ -18,4 +18,6 @@
           />
       </div>
   </div>
+
+  <!-- <div class="well flex"></div> -->
 </div>

@@ -1,33 +1,60 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, Subject, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { WeatherInfo } from '../interfaces/weather-info.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
 
-  API_KEY = '5a4b2d457ecbef9eb2a71e480b947604';
-  API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+  weatherInfo$ = new BehaviorSubject<WeatherInfo[]>([]); 
+  weatherCollection: WeatherInfo[] = [];
 
   constructor(private http: HttpClient) { }
 
-  addLocation(zipcode: string) {
-    return this.getLocation(zipcode);
+  addLocation(zipcode: string): Observable<WeatherInfo> {
+    return this.getLocation(zipcode).pipe(
+      tap(weather => {
+        console.log(weather);
+        this.weatherCollection.push(weather);
+        this.weatherInfo$.next(this.weatherCollection);
+      })  
+    )
   }
 
-  private getLocation(zipcode: string): Observable<any> {
-    return this.http.get(`${this.API_URL}`, {
+  private getLocation(zipcode: string): Observable<WeatherInfo | never> {
+    return this.http.get(`${environment.API_URL}`, {
       params: {
         zip: zipcode,
-        appId: this.API_KEY
+        appId: environment.API_KEY
       }
     }).pipe(
+      map(res => this.formatWeatherInfo(res, zipcode)),
       catchError(err => {
-        alert(err.error.message ?? 'Something went wrong.');
+        this.showError(err?.error?.message);
         return EMPTY;
       }),
     )
+  }
+
+  private formatWeatherInfo(obj: any, zipcode: string): WeatherInfo {
+    console.log(obj);
+    return {
+      name: obj?.name,
+      currentCondition: obj?.weather[0].main,
+      temperature: {
+        temp: obj?.main.temp,
+        tempMax: obj?.main.temp_max,
+        tempMin: obj?.main.temp_min
+      },
+      zipcode
+    }
+  }
+
+  private showError(message: string): void {
+    alert(message ?? 'Something went wrong');
   }
 
 }

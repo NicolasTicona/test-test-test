@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-weather-card',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeatherCardComponent implements OnInit {
 
-  constructor() { }
+  weatherInfo$: Observable<any>;
+
+  constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
+    this.weatherInfo$ = this.weatherService.weatherInfo$;
   }
 
 }

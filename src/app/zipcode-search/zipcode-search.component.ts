@@ -23,7 +23,6 @@ export class ZipcodeSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.zipcode);
   }
 
   onAddLocation() {
@@ -39,11 +38,7 @@ export class ZipcodeSearchComponent implements OnInit {
           this.isLoading = false;
         })
       )
-      .subscribe(
-        res => {
-          console.log(res);
-        },
-      );
+      .subscribe();
   }
 
   ngDestroy(): void {
