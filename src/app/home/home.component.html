@@ -7,7 +7,11 @@
   <section class="zipcode-results">
     <div class="weather-result">
       <hr>
-      <app-weather-card></app-weather-card>
+      <app-weather-card 
+        *ngFor="let item of locations$ | async" 
+        [location]="item"
+        (remove)="onRemoveLocation($event)" >
+      </app-weather-card>
     </div>
   </section>
 

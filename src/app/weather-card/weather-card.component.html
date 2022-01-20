@@ -1,20 +1,20 @@
 <div class="container-fluid">
-  <div class="well flex" *ngFor="let item of weatherInfo$ | async" >
+  <div class="well flex" >
       <div>
-          <h3>{{item.name}} ({{item.zipcode}})</h3>
-          <h4>Current conditions: {{item.currentCondition}}</h4>
+          <h3>{{location.name}} ({{location.zipcode}})</h3>
+          <h4>Current conditions: {{location.currentCondition}}</h4>
           <h4>Temperatures today:</h4>
-          <p>Current {{item.temperature.temp}} - Max {{item.temperature.tempMax}} - Min {{item.temperature.tempMin}}</p>
+          <p>Current {{location.temperature.temp}} - Max {{location.temperature.tempMax}} - Min {{location.temperature.tempMin}}</p>
           <p>
-              <a [routerLink]="'/forecast/' + item.zipcode"
-                  >Show 5-day forecast for {{item.name}}</a
+              <a [routerLink]="'/forecast/' + location.zipcode"
+                  >Show 5-day forecast for {{location.name}}</a
               >
           </p>
       </div>
       <div>
-          <span class="close">×</span>
+          <span class="close" (click)="onRemove()">×</span>
           <img
-              [src]="item.currentCondition | setImage"
+              [src]="location.currentCondition | setImage"
           />
       </div>
   </div>
