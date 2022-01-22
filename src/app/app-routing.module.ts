@@ -11,12 +11,18 @@ const routes: Routes = [
   {
     path: 'forecast/:zipcode',
     component: WeatherForecastComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ]
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled'
+    })
   ],
   exports: [
     RouterModule
