@@ -11,7 +11,6 @@ export class WeatherCardComponent {
   @Input() location: WeatherInfo;
   @Output() remove = new EventEmitter<string>();
 
-
   onRemove(): void {
     this.remove.emit(this.location.zipcode);
   }

@@ -1,3 +1,3 @@
 # angular-certification
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/ng-certification)
+[Try it on](https://weather-ng.vercel.app/)

@@ -6,9 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SetImagePipe implements PipeTransform {
 
   transform(value: string): string {
-   
-    switch(value.toLowerCase()) {
-      case 'clear': 
+
+    switch (value.toLowerCase()) {
+      case 'clear':
         return 'assets/icons/sun.png';
       case 'clouds':
         return 'assets/icons/clouds.png';
@@ -17,8 +17,8 @@ export class SetImagePipe implements PipeTransform {
       case 'snow':
         return 'assets/icons/snow.png';
       default:
-        return 'assets/icons/sun.png';
-   }
+        return '';
+    }
 
   }
 

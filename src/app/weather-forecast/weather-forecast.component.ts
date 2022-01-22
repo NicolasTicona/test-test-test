@@ -12,7 +12,6 @@ import { formatForecast } from '../utils/format-forecast';
 export class WeatherForecastComponent implements OnInit {
 
   forecast: LocationForecast[] = [];
-  customDate = new Date('Mon Feb 04 2019 15:34:12');
   zipcode: string;
   cityName: string;
 
