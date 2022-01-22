@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
-import { ZipcodeSearchComponent } from './zipcode-search/zipcode-search.component';
-import { WeatherCardComponent } from './weather-card/weather-card.component';
-import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
-import { HomeComponent } from './home/home.component';
+import { ZipcodeSearchComponent } from './components/zipcode-search/zipcode-search.component';
+import { WeatherCardComponent } from './components/weather-card/weather-card.component';
+import { WeatherForecastComponent } from './components/weather-forecast/weather-forecast.component';
+import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SetImagePipe } from './pipes/set-image.pipe';
 

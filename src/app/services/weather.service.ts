@@ -45,7 +45,12 @@ export class WeatherService {
         cnt: 5,
         appId: environment.API_KEY,
       }
-    })
+    }).pipe(
+      catchError(err => {
+        this.showError(err?.error?.message);
+        return EMPTY;
+      })
+    )
   }
 
   getLocation(zipcode: string): Observable<WeatherInfo | never> {

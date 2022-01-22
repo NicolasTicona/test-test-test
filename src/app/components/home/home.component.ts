@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WeatherInfo } from '../interfaces/weather-info.interface';
-import { StorageService } from '../services/storage.service';
-import { WeatherService } from '../services/weather.service';
+import { WeatherInfo } from '../../interfaces/weather-info.interface';
+import { StorageService } from '../../services/storage.service';
+import { WeatherService } from '../../services/weather.service';
 
 @Component({
   selector: 'app-home',

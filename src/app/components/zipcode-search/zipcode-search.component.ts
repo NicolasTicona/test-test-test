@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../services/weather.service';
+import { WeatherService } from '../../services/weather.service';
 import { FormControl, Validators } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, EMPTY, filter, finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-zipcode-search',
   templateUrl: './zipcode-search.component.html',
   styleUrls: ['./zipcode-search.component.css']
 })
-export class ZipcodeSearchComponent implements OnInit {
+export class ZipcodeSearchComponent {
 
   zipcode: FormControl;
   unsubscribe$ = new Subject<boolean>();
@@ -20,9 +20,6 @@ export class ZipcodeSearchComponent implements OnInit {
       null,
       [Validators.required, Validators.minLength(this.ZIP_LENGTH), Validators.maxLength(this.ZIP_LENGTH)]
     );
-  }
-
-  ngOnInit(): void {
   }
 
   onAddLocation() {

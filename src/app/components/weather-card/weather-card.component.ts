@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { WeatherInfo } from '../interfaces/weather-info.interface';
+import { WeatherInfo } from '../../interfaces/weather-info.interface';
 
 @Component({
   selector: 'app-weather-card',
