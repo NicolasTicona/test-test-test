@@ -5,17 +5,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SetImagePipe implements PipeTransform {
 
+  imagesPath = 'assets/icons';
+
   transform(value: string): string {
 
     switch (value.toLowerCase()) {
       case 'clear':
-        return 'assets/icons/sun.png';
+        return `${this.imagesPath}/sun.png`;
       case 'clouds':
-        return 'assets/icons/clouds.png';
+        return `${this.imagesPath}/clouds.png`;
       case 'rain':
-        return 'assets/icons/rain.png';
+        return `${this.imagesPath}/rain.png`;
       case 'snow':
-        return 'assets/icons/snow.png';
+        return `${this.imagesPath}/snow.png`;
+      case 'mist': 
+        return `${this.imagesPath}/clouds.png`;
       default:
         return '';
     }
