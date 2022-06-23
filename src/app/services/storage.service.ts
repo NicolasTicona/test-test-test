@@ -14,14 +14,18 @@ export class StorageService {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  getItem(zipcode: string): WeatherInfo {
+  setItems(items: WeatherInfo[]): void {
+    localStorage.setItem('locations', JSON.stringify(items));
+  }
+
+  getItem(zipcode: string): WeatherInfo | null{
     const locations = this.getLocations();
 
-    return locations.find(item => item.zipcode === zipcode);
+    return locations.find(item => item.zipcode === zipcode) ?? null;
   }
 
   getLocations(): WeatherInfo[] {
-    return localStorage.getItem('locations') ? JSON.parse(localStorage.getItem('locations')) : [];
+    return localStorage.getItem('locations') ? JSON.parse(localStorage.getItem('locations') ?? '') : [];
   }
 
   removeItem(zipcode: string): void {
@@ -30,5 +34,9 @@ export class StorageService {
     locations = locations.filter(item => item.zipcode !== zipcode);
 
     localStorage.setItem('locations', JSON.stringify(locations));
+  }
+
+  removeLocations(): void {
+    localStorage.removeItem('locations');
   }
 }

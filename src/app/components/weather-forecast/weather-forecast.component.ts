@@ -21,7 +21,7 @@ export class WeatherForecastComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    this.zipcode = this.activatedRoute.snapshot.paramMap.get('zipcode');
+    this.zipcode = this.activatedRoute.snapshot.paramMap.get('zipcode') ?? '';
     this.getForecast(this.zipcode);
   }
 

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, EMPTY, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, delay, EMPTY, forkJoin, map, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { WeatherInfo } from '../interfaces/weather-info.interface';
 import { StorageService } from './storage.service';
 import { formatWeatherInfo } from '../utils/format-weather';
+import { showError } from '../utils/error-alert'
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,8 @@ export class WeatherService {
   private locations: WeatherInfo[] = [];
   private locationsSubject$ = new BehaviorSubject<WeatherInfo[]>([]); 
   private readonly defaultUnit = 'imperial';
-
+  
+  stopRefresh$ = new Subject();
   locations$: Observable<WeatherInfo[]> = this.locationsSubject$.asObservable();
 
   constructor(
@@ -24,13 +26,27 @@ export class WeatherService {
     this.locationsSubject$.next(this.locations);  
   }
 
+  autoRefresh(): void {
+    const zipcodes = this.locations.map(item => item.zipcode);
+
+    const requests = zipcodes.map(zipcode => this.getLocation(zipcode));
+
+    forkJoin(requests).pipe(
+    ).subscribe((locations) => {
+      this.storageService.removeLocations();
+      this.locations = locations;
+      this.storageService.setItems(locations);
+      this.locationsSubject$.next(this.locations);
+    })
+  }
+
   addLocation(zipcode: string): Observable<WeatherInfo> {
+    if(this.locationExists(zipcode)) {
+      return EMPTY;
+    }
+
     return this.getLocation(zipcode).pipe(
       tap(weather => {
-        if(this.locationExists(weather.zipcode)) {
-          return;
-        }
-        
         this.saveLocation(weather)
         this.locationsSubject$.next(this.locations);
       })  
@@ -47,7 +63,7 @@ export class WeatherService {
       }
     }).pipe(
       catchError(err => {
-        this.showError(err?.error?.message);
+        showError(err?.error?.message);
         return EMPTY;
       })
     )
@@ -56,14 +72,14 @@ export class WeatherService {
   getLocation(zipcode: string): Observable<WeatherInfo | never> {
     return this.http.get(`${environment.API_URL}/weather`, {
       params: {
-        zip: zipcode,
+        zip: `${zipcode}`,
         units: this.defaultUnit,
         appId: environment.API_KEY,
       }
     }).pipe(
       map(res => formatWeatherInfo(res, zipcode)),
       catchError(err => {
-        this.showError(err?.error?.message);
+        showError(err?.error?.message);
         return EMPTY;
       }),
     )
@@ -82,10 +98,6 @@ export class WeatherService {
   private saveLocation(weather: WeatherInfo): void {
     this.storageService.setItem(weather);
     this.locations.unshift(weather);
-  }
-
-  private showError(message: string): void {
-    alert(message ?? 'Something went wrong');
   }
 
 }
