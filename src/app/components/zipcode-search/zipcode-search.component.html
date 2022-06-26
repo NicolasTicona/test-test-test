@@ -8,6 +8,9 @@
         [formControl]="zipcode"
       />
       <br />
+
+      <app-auto-complete [items]="items"></app-auto-complete>
+
       <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>
   </div>
 </div>

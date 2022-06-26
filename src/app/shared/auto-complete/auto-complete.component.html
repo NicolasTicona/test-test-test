@@ -1,0 +1,12 @@
+<input 
+  class="form-control"
+  placeholder="Enter country name"
+  type="text"
+  (input)="onFilter($event)"
+  (focus)="showOptions = true">
+
+<div class="items-container">
+  <div class="item" *ngFor="let item of items$ | async; trackBy: identify" (click)="onSelect(item)">
+    {{item.label}}
+  </div>
+</div>

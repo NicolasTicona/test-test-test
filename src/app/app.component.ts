@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setAutoRefresh();
+    // this.setAutoRefresh();
   }
 
   setAutoRefresh(): void {

@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SetImagePipe } from './pipes/set-image.pipe';
 import { SaveButtonModule } from './shared/save-button/save-button.module';
+import { AutoCompleteModule } from './shared/auto-complete/auto-complete.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SaveButtonModule } from './shared/save-button/save-button.module';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SaveButtonModule
+    SaveButtonModule,
+    AutoCompleteModule
   ],
   declarations: [
     AppComponent,

@@ -12,7 +12,6 @@ import { ButtonConfig } from '../../shared/save-button/interfaces/button-config.
 export class ZipcodeSearchComponent {
 
   zipcode: FormControl;
-  unsubscribe$ = new Subject<boolean>();
   ZIP_LENGTH = 5;
   isLoading = false;
 
@@ -31,6 +30,18 @@ export class ZipcodeSearchComponent {
       bgColor: '#198754'
     }
   };
+
+  items = [
+    {
+      label: 'New York',
+    },
+    {
+      label: 'London',
+    },
+    {
+      label: 'Paris',
+    }
+  ]
 
   constructor(private weatherService: WeatherService) {
     this.zipcode = new FormControl(
@@ -53,11 +64,6 @@ export class ZipcodeSearchComponent {
         })
       )
       .subscribe();
-  }
-
-  ngDestroy(): void {
-    this.unsubscribe$.next(true);
-    this.unsubscribe$.complete();
   }
 
 }
