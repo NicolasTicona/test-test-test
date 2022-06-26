@@ -2,10 +2,10 @@
   <div class="well">
     <h2>Enter a zipcode:</h2>
       <input
-          class="form-control"
-          placeholder="Zipcode"
-          type="text"
-          [formControl]="zipcode"
+        class="form-control"
+        placeholder="Zipcode"
+        type="text"
+        [formControl]="zipcode"
       />
       <br />
       <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>

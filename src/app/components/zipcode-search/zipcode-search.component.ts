@@ -34,7 +34,7 @@ export class ZipcodeSearchComponent {
 
   constructor(private weatherService: WeatherService) {
     this.zipcode = new FormControl(
-      '06001',
+      '',
       [Validators.required, Validators.minLength(this.ZIP_LENGTH), Validators.maxLength(this.ZIP_LENGTH)]
     );
   }
