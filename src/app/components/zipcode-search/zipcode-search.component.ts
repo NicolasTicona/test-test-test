@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
 import { FormControl, Validators } from '@angular/forms';
 import { finalize, Subject } from 'rxjs';
+import { ButtonConfig } from '../../shared/save-button/interfaces/button-config.interface'
 
 @Component({
   selector: 'app-zipcode-search',
@@ -15,14 +16,30 @@ export class ZipcodeSearchComponent {
   ZIP_LENGTH = 5;
   isLoading = false;
 
+  saveButtonConfig: ButtonConfig = {
+    default: {
+      text: 'Add Location',
+      bgColor: '#1976D2'
+    },
+    working: {
+      text: 'Adding...',
+      bgColor: '#7BA9D0'
+    },
+    done: {
+      text: 'Done',
+      imgUrl: 'assets/icons/checked.png',
+      bgColor: '#198754'
+    }
+  };
+
   constructor(private weatherService: WeatherService) {
     this.zipcode = new FormControl(
-      null,
+      '06001',
       [Validators.required, Validators.minLength(this.ZIP_LENGTH), Validators.maxLength(this.ZIP_LENGTH)]
     );
   }
 
-  onAddLocation() {
+  onAddLocation(): void {
     if (this.zipcode.invalid || this.isLoading) {
       return;
     }

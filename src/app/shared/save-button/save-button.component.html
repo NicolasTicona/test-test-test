@@ -1,0 +1,20 @@
+<ng-container >
+  <button 
+    [ngStyle]="{'background-color': backgroundColor}"
+    (click)="onClick()"
+    [disabled]="state === 'working'"
+    class="btn btn-primary"
+  >
+    <ng-container *ngIf="state === 'default'">
+      <img [src]="config.default.imgUrl" alt=""> {{config.default.text}}
+    </ng-container>
+  
+    <ng-container *ngIf="state === 'working'">
+      <img [src]="config.working.imgUrl" alt=""> {{config.working.text}} 
+    </ng-container>
+  
+    <ng-container *ngIf="state === 'done'">
+      <img [src]="config.done.imgUrl" alt=""> {{config.done.text}}
+    </ng-container>
+  </button>
+</ng-container>

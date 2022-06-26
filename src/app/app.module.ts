@@ -10,6 +10,7 @@ import { WeatherForecastComponent } from './components/weather-forecast/weather-
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SetImagePipe } from './pipes/set-image.pipe';
+import { SaveButtonModule } from './shared/save-button/save-button.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { SetImagePipe } from './pipes/set-image.pipe';
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SaveButtonModule
   ],
   declarations: [
     AppComponent,

@@ -8,8 +8,6 @@
           [formControl]="zipcode"
       />
       <br />
-      <button class="btn btn-primary" (click)="onAddLocation()">
-          Add location
-      </button>
+      <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>
   </div>
 </div>

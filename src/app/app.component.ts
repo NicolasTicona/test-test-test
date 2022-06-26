@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { interval, takeUntil, takeWhile } from 'rxjs';
+import { defer, fromEvent, interval, takeUntil, takeWhile } from 'rxjs';
 import { StorageService } from './services/storage.service';
 import { WeatherService } from './services/weather.service';
 
@@ -28,4 +28,5 @@ export class AppComponent implements OnInit {
         this.weatherService.autoRefresh();
       })
   }
+
 }
