@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
-import { ZipcodeSearchComponent } from './components/zipcode-search/zipcode-search.component';
+import { CitySearchComponent } from './components/city-search/city-search.component';
 import { WeatherCardComponent } from './components/weather-card/weather-card.component';
 import { WeatherForecastComponent } from './components/weather-forecast/weather-forecast.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,7 +25,7 @@ import { AutoCompleteModule } from './shared/auto-complete/auto-complete.module'
   ],
   declarations: [
     AppComponent,
-    ZipcodeSearchComponent,
+    CitySearchComponent,
     WeatherCardComponent,
     WeatherForecastComponent,
     HomeComponent,

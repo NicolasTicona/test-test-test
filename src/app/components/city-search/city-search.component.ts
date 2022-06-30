@@ -5,11 +5,11 @@ import { finalize, Subject } from 'rxjs';
 import { ButtonConfig } from '../../shared/save-button/interfaces/button-config.interface'
 
 @Component({
-  selector: 'app-zipcode-search',
-  templateUrl: './zipcode-search.component.html',
-  styleUrls: ['./zipcode-search.component.css']
+  selector: 'app-city-search',
+  templateUrl: './city-search.component.html',
+  styleUrls: ['./city-search.component.css']
 })
-export class ZipcodeSearchComponent {
+export class CitySearchComponent {
 
   zipcode: FormControl;
   ZIP_LENGTH = 5;
