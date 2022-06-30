@@ -2,4 +2,6 @@
   width: 80vw;
   min-width: 800px;
   margin: auto;
+  height: 100vh;
+  padding-top: 10px;
 }

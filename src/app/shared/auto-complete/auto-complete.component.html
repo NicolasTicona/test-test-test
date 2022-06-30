@@ -2,11 +2,25 @@
   class="form-control"
   placeholder="Enter country name"
   type="text"
+  [autocomplete]="false"
   (input)="onFilter($event)"
-  (focus)="showOptions = true">
+  [class.input-active]="isOpen$ | async"
+  cdkOverlayOrigin
+  #originOverlay="cdkOverlayOrigin"
+>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="originOverlay"
+  [cdkConnectedOverlayOpen]="isOpen$ | async"
+  (overlayOutsideClick)="overlayOutsideClick($event)"
+>
 
 <div class="items-container">
   <div class="item" *ngFor="let item of items$ | async; trackBy: identify" (click)="onSelect(item)">
-    {{item.label}}
+    <ng-container *ngFor="let letter of item.label | functionPipe : convertStringToArray">
+      <span [ngStyle]="{'font-weight': (input.nativeElement.value | functionPipe : matches : letter) ? 'bold' : '' }">{{ letter }}</span>
+    </ng-container>
   </div>
 </div>
+</ng-template>
