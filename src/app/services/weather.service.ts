@@ -6,6 +6,7 @@ import { WeatherInfo } from '../interfaces/weather-info.interface';
 import { StorageService } from './storage.service';
 import { formatWeatherInfo } from '../utils/format-weather';
 import { showError } from '../utils/error-alert'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,9 +28,14 @@ export class WeatherService {
   }
 
   autoRefresh(): void {
-    const zipcodes = this.locations.map(item => item.zipcode);
+    const cities = this.locations.map(item => {
+      return {
+        zipcode: item.zipcode,
+        countryCode: item.countryCode,
+      }
+    });
 
-    const requests = zipcodes.map(zipcode => this.getLocation(zipcode));
+    const requests = cities.map(city => this.getLocation(city.zipcode, city.countryCode));
 
     forkJoin(requests).pipe(
     ).subscribe((locations) => {
@@ -40,12 +46,12 @@ export class WeatherService {
     })
   }
 
-  addLocation(zipcode: string): Observable<WeatherInfo> {
+  addLocation(zipcode: string, countryCode: string): Observable<WeatherInfo> {
     if(this.locationExists(zipcode)) {
       return EMPTY;
     }
 
-    return this.getLocation(zipcode).pipe(
+    return this.getLocation(zipcode, countryCode).pipe(
       tap(weather => {
         this.saveLocation(weather)
         this.locationsSubject$.next(this.locations);
@@ -54,9 +60,11 @@ export class WeatherService {
   }
 
   getLocationForecast(zipcode: string): Observable<any> {
+    const countryCode = this.storageService.getItem(zipcode)?.countryCode;
+
     return this.http.get(`${environment.API_URL}/forecast/daily`, {
       params: {
-        zip: zipcode,
+        zip: `${zipcode}${countryCode ? `,${countryCode}` : ''}`,
         units: this.defaultUnit,
         cnt: 5,
         appId: environment.API_KEY,
@@ -69,15 +77,15 @@ export class WeatherService {
     )
   }
 
-  getLocation(zipcode: string): Observable<WeatherInfo | never> {
+  getLocation(zipcode: string, countryCode: string): Observable<WeatherInfo | never> {
     return this.http.get(`${environment.API_URL}/weather`, {
       params: {
-        zip: `${zipcode}`,
+        zip: `${zipcode}${countryCode ? `,${countryCode}` : ''}`,
         units: this.defaultUnit,
         appId: environment.API_KEY,
       }
     }).pipe(
-      map(res => formatWeatherInfo(res, zipcode)),
+      map(res => formatWeatherInfo(res, zipcode, countryCode)),
       catchError(err => {
         showError(err?.error?.message);
         return EMPTY;

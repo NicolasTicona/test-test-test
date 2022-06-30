@@ -9,4 +9,5 @@ export interface WeatherInfo {
   currentCondition: string;
   temperature: WeatherTemperature,
   zipcode: string;
+  countryCode: string;
 }

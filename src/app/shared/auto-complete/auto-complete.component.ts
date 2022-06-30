@@ -1,13 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { BehaviorSubject, debounce, merge, Observable, Subject } from 'rxjs';
-import { filter, map, mapTo, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { filter, map, mapTo, shareReplay } from 'rxjs/operators';
 import { FocusMonitor } from '@angular/cdk/a11y'
-import { CdkConnectedOverlay, Overlay, OverlayOutsideClickDispatcher, OverlayRef } from '@angular/cdk/overlay';
-
-interface AutoCompleteItem {
-  label: string;
-  value?: string;
-}
+import { AutoCompleteItem } from './interfaces/auto-complete-item.interface';
 
 @Component({
   selector: 'app-auto-complete',
@@ -21,12 +16,13 @@ export class AutoCompleteComponent implements OnInit{
   closeOverlay$ = new Subject<boolean>();
 
   inputText = '';
+  selectedItem: AutoCompleteItem | null;
 
   @ViewChild('originOverlay', {read: ElementRef, static: true})
   input: ElementRef;
   
   @Input() items: AutoCompleteItem[];
-  @Output() selected = new EventEmitter<AutoCompleteItem>();
+  @Output() selected = new EventEmitter<string | null>();
 
   constructor(
     private focusMonitor: FocusMonitor,
@@ -35,10 +31,7 @@ export class AutoCompleteComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-
     const isPanelVisible$ = this.focusMonitor.monitor(this.input).pipe(
-      
       filter(focused => !!focused),
       mapTo(true)
     )
@@ -48,50 +41,51 @@ export class AutoCompleteComponent implements OnInit{
     )
   }
 
-  overlayOutsideClick(event: MouseEvent){
-    console.log(event);
-
-    if(this.input.nativeElement !== event.target) {
-      this.hide();
-    }
-  }
-
-  hide() {
-    this.closeOverlay$.next(false);
-  }
-
-  getItems() {
+  
+  getItems(): void {
     this.items$ = this.filterSubject.asObservable().pipe(
       map(search => {
         if(!search) return this.items;
 
         return this.items.filter(
-          item => item.label.toLowerCase().includes(search.toLowerCase())
+          item => this.matches(item.label, search)
         );
       })
     );
   }
 
-  identify(index: number, item: AutoCompleteItem) {
-    return item.value;
-  }
-
-  onFilter(event) {
+  onFilter(event): void {
+    this.selectedItem = null;
     this.filterSubject.next(event.target.value);
   }
 
-  onSelect(item: AutoCompleteItem) {
+  onSelect(item: AutoCompleteItem): void {
     this.input.nativeElement.value = item.label;
     this.filterSubject.next(item.label);
-    this.selected.emit(item);
+    this.selectedItem = item;
     this.hide();
   }
 
-  convertStringToArray(value: string) {
+  overlayOutsideClick(event: MouseEvent): void {
+    if(this.input.nativeElement !== event.target) {
+      this.hide();
+    }
+  }
+
+  hide(): void {
+    this.selected.emit(this.selectedItem?.value);
+    this.closeOverlay$.next(false);
+  }
+
+  identify(index: number, item: AutoCompleteItem): string | undefined {
+    return item.value;
+  }
+
+  convertStringToArray(value: string): Array<string> {
     return Array.from(value);
   }
 
-  matches(filter: string, letter: string) {
-    return filter?.toLowerCase().includes(letter?.toLowerCase());
+  matches(filter: string, str: string): boolean {
+    return filter?.toLowerCase().includes(str?.toLowerCase());
   }
 }

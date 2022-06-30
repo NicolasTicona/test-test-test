@@ -1,6 +1,12 @@
 <div class="container-fluid">
-  <div class="well">
-    <h2>Enter a zipcode:</h2>
+  <div class="well row">
+    <div class="col-xs-12">
+      <h1>Select a country and Enter a zipcode</h1>
+    </div>
+    <div class="col-xs-3">
+      <app-auto-complete (selected)="countryCode = $event" [items]="items$ | async"></app-auto-complete>
+    </div>
+    <div class="col-xs-3">
       <input
         class="form-control"
         placeholder="Zipcode"
@@ -8,9 +14,9 @@
         [formControl]="zipcode"
       />
       <br />
-
-      <app-auto-complete [items]="items"></app-auto-complete>
-
-      <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>
+  </div>
+  <br>
+  <div class="col-xs-12">
+    <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>
   </div>
 </div>

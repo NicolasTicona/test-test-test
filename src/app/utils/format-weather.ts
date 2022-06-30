@@ -1,6 +1,6 @@
 import { WeatherInfo } from '../interfaces/weather-info.interface';
 
-export function formatWeatherInfo(obj: any, zipcode: string): WeatherInfo {
+export function formatWeatherInfo(obj: any, zipcode: string, countryCode: string): WeatherInfo {
   return {
     name: obj?.name,
     currentCondition: obj?.weather[0].main,
@@ -9,6 +9,7 @@ export function formatWeatherInfo(obj: any, zipcode: string): WeatherInfo {
       tempMax: obj?.main.temp_max,
       tempMin: obj?.main.temp_min
     },
-    zipcode
+    zipcode,
+    countryCode
   }
 }

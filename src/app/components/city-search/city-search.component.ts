@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
+import { CountriesService } from '../../services/countries.service';
 import { FormControl, Validators } from '@angular/forms';
-import { finalize, Subject } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { ButtonConfig } from '../../shared/save-button/interfaces/button-config.interface'
+import { AutoCompleteItem } from '../../shared/auto-complete/interfaces/auto-complete-item.interface'
 
 @Component({
   selector: 'app-city-search',
@@ -31,33 +33,33 @@ export class CitySearchComponent {
     }
   };
 
-  items = [
-    {
-      label: 'New York',
-    },
-    {
-      label: 'London',
-    },
-    {
-      label: 'Paris',
-    }
-  ]
+  countryCode: string;
+  items$: Observable<AutoCompleteItem[]>;
 
-  constructor(private weatherService: WeatherService) {
+  constructor(private countriesService: CountriesService, private weatherService: WeatherService) {
+    this.setZipcodeControl();
+    this.getCountries();
+  }
+
+  getCountries(): void {
+    this.items$ = this.countriesService.getCountries()
+  }
+
+  setZipcodeControl(): void {
     this.zipcode = new FormControl(
       '',
-      [Validators.required, Validators.minLength(this.ZIP_LENGTH), Validators.maxLength(this.ZIP_LENGTH)]
+      [Validators.required]
     );
   }
 
   onAddLocation(): void {
-    if (this.zipcode.invalid || this.isLoading) {
+    if (this.zipcode.invalid || this.isLoading || !this.countryCode) {
       return;
     }
 
     this.isLoading = true;
 
-    this.weatherService.addLocation(this.zipcode.value)
+    this.weatherService.addLocation(this.zipcode.value, this.countryCode)
       .pipe(
         finalize(() => {
           this.isLoading = false;
