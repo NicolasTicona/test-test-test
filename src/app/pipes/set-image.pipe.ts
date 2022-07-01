@@ -9,7 +9,7 @@ export class SetImagePipe implements PipeTransform {
 
   transform(value: string): string {
 
-    switch (value.toLowerCase()) {
+    switch (value?.toLowerCase()) {
       case 'clear':
         return `${this.imagesPath}/sun.png`;
       case 'clouds':
