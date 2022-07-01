@@ -16,23 +16,6 @@ export class CitySearchComponent {
   zipcode: FormControl;
   ZIP_LENGTH = 5;
   isLoading = false;
-
-  saveButtonConfig: ButtonConfig = {
-    default: {
-      text: 'Add Location',
-      bgColor: '#1976D2'
-    },
-    working: {
-      text: 'Adding...',
-      bgColor: '#7BA9D0'
-    },
-    done: {
-      text: 'Done',
-      imgUrl: 'assets/icons/checked.png',
-      bgColor: '#198754'
-    }
-  };
-
   countryCode: string;
   items$: Observable<AutoCompleteItem[]>;
 

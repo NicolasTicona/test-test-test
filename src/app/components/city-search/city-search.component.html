@@ -17,6 +17,16 @@
   </div>
   <br>
   <div class="col-xs-12">
-    <app-save-button [config]="saveButtonConfig" [isLoading]="isLoading" (clicked)="onAddLocation()"></app-save-button>
+    <app-save-button [isLoading]="isLoading" (clicked)="onAddLocation()">
+      <div class="btn default-btn" default>
+        Add Location
+      </div>
+      <div class="btn working-btn" [attr.disabled]="isLoading" working>
+        Adding ...
+      </div>
+      <div class="btn done-btn" done>
+        <img class="small" src="assets/icons/checked.png"> Done
+      </div>
+    </app-save-button>
   </div>
 </div>

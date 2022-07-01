@@ -21,7 +21,8 @@ body {
     right: 20px;
     top: -2px;
 }
-/* 
-.custom-backdrop {
-  z-index: 1000;
-} */
+
+img.small {
+  width: 15px;
+  height: 15px;
+}

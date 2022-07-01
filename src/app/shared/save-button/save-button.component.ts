@@ -1,43 +1,29 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ButtonConfig, ButtonState } from './interfaces/button-config.interface'
+import { ButtonState } from './interfaces/button-config.interface'
 
 @Component({
   selector: 'app-save-button',
   templateUrl: './save-button.component.html',
-  styles: [`
-    img {
-      width: 15px
-    }
-  `]
+  styles: [
+    `
+      button {
+        outline: none;
+        border: none;
+        padding: none;
+      }
+    `
+  ]
 })
 export class SaveButtonComponent implements OnChanges {
   state: ButtonState = 'default';
-  backgroundColor: string;
   loadingStateSubject$ = new Subject<void>();
 
   @Input() isLoading = false;
-  @Input() config: ButtonConfig = {
-    default: {
-      text: 'Save',
-      bgColor: '#1976D2'
-    },
-    working: {
-      text: '',
-      imgUrl: 'assets/images/spinner.gif',
-      bgColor: '#FFD700'
-    },
-    done: {
-      text: 'Saved!',
-      bgColor: '#198754'
-    }
-  };
-
-  @Output() clicked = new EventEmitter();
+  @Output() clicked = new EventEmitter<void>();
+ 
 
   ngOnInit(): void {
-    this.backgroundColor = this.config.default.bgColor ?? '';
-
     this.loadingStateSubject$.subscribe(() => {
       this.setWorkingState();
     });
@@ -51,10 +37,9 @@ export class SaveButtonComponent implements OnChanges {
 
   setWorkingState(): void {
     this.state = 'working';
-    this.backgroundColor = this.config.working.bgColor ?? '';
     setTimeout(() => {
       if(this.isLoading) {
-        this.setDoneState();
+        this.setWorkingState();
         return;
       }
 
@@ -64,14 +49,12 @@ export class SaveButtonComponent implements OnChanges {
 
   setDoneState(): void {
     this.state = 'done';
-    this.backgroundColor = this.config.done.bgColor ?? '';;
 
     setTimeout(() => {
       this.state  = 'default';
-      this.backgroundColor = this.config.default.bgColor ?? '';;
     }, 500)
   }
-
+  
   onClick(): void {
     if(this.state !== 'default') {
       return;
