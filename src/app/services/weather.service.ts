@@ -64,7 +64,7 @@ export class WeatherService {
 
     return this.http.get(`${environment.API_URL}/forecast/daily`, {
       params: {
-        zip: `${zipcode}${countryCode ? `,${countryCode}` : ''}`,
+        zip: `${zipcode}${countryCode ? `,${countryCode}` : 'US'}`,
         units: this.defaultUnit,
         cnt: 5,
         appId: environment.API_KEY,
@@ -80,7 +80,7 @@ export class WeatherService {
   getLocation(zipcode: string, countryCode: string): Observable<WeatherInfo | never> {
     return this.http.get(`${environment.API_URL}/weather`, {
       params: {
-        zip: `${zipcode}${countryCode ? `,${countryCode}` : ''}`,
+        zip: `${zipcode}${countryCode ? `,${countryCode}` : 'US'}`,
         units: this.defaultUnit,
         appId: environment.API_KEY,
       }
