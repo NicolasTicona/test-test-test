@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { defer, fromEvent, interval, takeUntil, takeWhile } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { StorageService } from './services/storage.service';
 import { WeatherService } from './services/weather.service';
 
@@ -9,6 +10,8 @@ import { WeatherService } from './services/weather.service';
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent implements OnInit {
+  subscription: Subscription;
+  isCallable = true;
 
   constructor(
     private weatherService: WeatherService,
@@ -16,13 +19,26 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setAutoRefresh();
+    this.weatherService.locations$.subscribe(locations => {
+      if(locations.length > 0) {
+        this.setAutoRefresh();
+        this.isCallable = false;
+      }else{
+        this.isCallable = true;
+        this.subscription?.unsubscribe();
+      }
+    })
   }
 
   setAutoRefresh(): void {
-    interval(30000)
+    if(!this.isCallable) {
+      return;
+    }
+
+    this.subscription?.unsubscribe();
+    this.subscription = interval(30000)
       .pipe(
-        takeWhile(() => this.storageService.getLocations().length > 0)
+        filter(() => this.storageService.getLocations().length > 0)
       )
       .subscribe(() => {
         this.weatherService.autoRefresh();
